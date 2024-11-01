@@ -102,3 +102,35 @@ void CSVReader::printData() const
         std::cout << std::endl;
     }
 }
+
+// Get values method implementation
+std::vector<std::variant<std::string, double>> CSVReader::getValues(const std::string &columnName) const
+{
+    std::vector<std::variant<std::string, double>> values;
+
+    auto it = data.find(columnName);
+    if (it != data.end())
+    {
+        const auto &typeAndValues = it->second;
+        if (typeAndValues.first == DataType::DOUBLE)
+        {
+            for (const auto &value : typeAndValues.second)
+            {
+                values.push_back(std::stod(value));
+            }
+        }
+        else
+        {
+            for (const auto &value : typeAndValues.second)
+            {
+                values.push_back(value);
+            }
+        }
+    }
+    else
+    {
+        throw std::invalid_argument("Column not found: " + columnName);
+    }
+
+    return values;
+}
