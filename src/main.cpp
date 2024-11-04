@@ -2,10 +2,8 @@
 #include "CSVReader.h"
 #include "linearRegression.h"
 
-int main()
-{
-    try
-    {
+int main(){
+    try{
 
         CSVReader reader("data/salarydata.csv");
         reader.read();
@@ -24,8 +22,7 @@ int main()
         std::cout << "Prediction for 5 years of experience: " << prediction << std::endl;
 
     }
-    catch (const std::exception &e)
-    {
+    catch (const std::exception &e){
         std::cerr << e.what() << std::endl;
         return 1;
     }

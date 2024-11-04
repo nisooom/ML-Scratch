@@ -15,7 +15,7 @@ class CSVReader
 {
 public:
     // Constructor that takes the filename as an argument
-    explicit CSVReader(const std::string &filename);
+    explicit CSVReader(const std::string &filename) : filename(filename) {};
 
     // Method to read data from the CSV file
     void read();

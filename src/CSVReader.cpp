@@ -1,8 +1,4 @@
 #include "CSVReader.h"
-
-// Constructor that takes the filename as an argument
-CSVReader::CSVReader(const std::string &filename) : filename(filename) {}
-
 // Method to read data from the CSV file
 void CSVReader::read() {
     std::ifstream file(filename);

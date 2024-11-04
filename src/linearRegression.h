@@ -6,8 +6,7 @@
 #include <variant>
 #include <numeric>
 
-class LinearRegression
-{
+class LinearRegression{
 public:
     LinearRegression(const std::vector<std::variant<std::string, double>>& x, const std::vector<std::variant<std::string, double>>& y);
 
