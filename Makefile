@@ -15,9 +15,11 @@ TARGET = app.exe
 SRC_DIR = src
 BUILD_DIR = build
 
-# Source files and corresponding object files
-SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp $(SRC_DIR)/*.cpp)  # Alternative to 'find' command
-OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
+# Source files in src and main.cpp
+SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp $(SRC_DIR)/*.cpp) main.cpp
+
+# Object files in build, keeping directory structure for src files
+OBJECTS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 
 # Display sources and objects for debugging
 $(info SOURCES: $(SOURCES))
@@ -31,7 +33,7 @@ $(TARGET): $(OBJECTS)
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $(LIBS)
 
 # Rule to compile source files into object files, maintaining subdirectory structure
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+$(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)  # Automatically create necessary directories in build
 	$(CXX) -o $@ -c $< $(CXXFLAGS) $(DEFINES) $(INCLUDES)
 
@@ -43,4 +45,3 @@ clean:
 redo: clean all
 
 .PHONY: all clean redo
-

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "CSVReader.h"
-#include "linearRegression.h"
+#include "src/CSVReader.h"
+#include "src/models/linearRegression.h"
 
 int main(){
     try{
