@@ -4,7 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <variant>
-
+#include <numeric>
 
 class LinearRegression
 {
