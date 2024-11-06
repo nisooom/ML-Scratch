@@ -1,6 +1,7 @@
 #include "CSVReader.h"
 // Method to read data from the CSV file
 void CSVReader::read() {
+        
     std::ifstream file(filename);
     if (!file.is_open()) {
         throw std::runtime_error("Error opening file: " + filename);

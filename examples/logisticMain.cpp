@@ -1,11 +1,15 @@
 #include <iostream>
 #include "src/CSVReader.h"
 #include "src/models/logisticRegression.h"
+#include <filesystem>
 
 using Data = std::vector<std::vector<std::variant<std::string, double>>>; // Define Data type
 
 int main() {
     try {
+
+        std::filesystem::current_path("..");
+    
         CSVReader reader("data/diabetes.csv");
         reader.read();
 
