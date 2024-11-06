@@ -4,7 +4,7 @@
 
     - Logistic regression is a statistical model that in its basic form uses a logistic function to model a binary dependent variable.
     - In regression analysis, logistic regression (or logit regression) is estimating the parameters of a logistic model (a form of binary regression).
-    - Using Xaiver Initialization for weights and zeros for bias
+    - Using Gradient Descent to optimize the weights and bias term
     - Using Sigmoid Activation Function
     - Using Binary Cross Entropy Loss Function
     - Using Gradient Descent for optimization
@@ -41,6 +41,9 @@ public:
     // Method to train the model
     void fit();
 
+    // Method to evaluate the model
+    void evaluate();
+
     // Method to predict using the trained model
     std::vector<double> predict(const Data& x);
 
@@ -56,7 +59,8 @@ private:
     Column y_test, y_train;
 
     double sigmoid(double z) {
-        return 1.0 / (1.0 + std::exp(-z));
+        // Stable Sigmoid Function
+        return z >= 0 ? 1 / (1 + std::exp(-z)) : std::exp(z) / (1 + std::exp(z));
     }
 
 };

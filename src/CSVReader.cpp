@@ -21,7 +21,8 @@ void CSVReader::read() {
                 data[cell] = {}; // Initialize with an empty vector for each header
             }
             isHeader = false; // Switch to reading data rows
-        } else {
+        }
+        else {
             // Read the data rows
             size_t index = 0;
             while (getline(ss, cell, ',')) {
@@ -30,7 +31,8 @@ void CSVReader::read() {
                     try {
                         double value = std::stod(cell);
                         data[headers[index]].emplace_back(value); // Store as double
-                    } catch (...) {
+                    }
+                    catch (...) {
                         data[headers[index]].emplace_back(cell); // Store as string
                     }
                 }
@@ -41,19 +43,19 @@ void CSVReader::read() {
 }
 
 // Method to get the data as a map of column names to their values
-const std::map<std::string, std::vector<std::variant<std::string, double>>> &CSVReader::getData() const {
+const std::map<std::string, std::vector<std::variant<std::string, double>>>& CSVReader::getData() const {
     return data;
 }
 
 // Method to print the data to the console
 void CSVReader::printData() const {
-    for (const auto &pair : data) {
-        const auto &columnName = pair.first;
-        const auto &values = pair.second;
+    for (const auto& pair : data) {
+        const auto& columnName = pair.first;
+        const auto& values = pair.second;
 
         // Print column name and its values
         std::cout << columnName << ": ";
-        for (const auto &value : values) {
+        for (const auto& value : values) {
             std::visit([](auto&& arg) { std::cout << arg << " "; }, value);
         }
         std::cout << std::endl;
@@ -61,11 +63,12 @@ void CSVReader::printData() const {
 }
 
 // Method to get the values of a specific column as a vector of doubles or strings
-std::vector<std::variant<std::string, double>> CSVReader::getValues(const std::string &columnName) const {
+std::vector<std::variant<std::string, double>> CSVReader::getValues(const std::string& columnName) const {
     auto it = data.find(columnName);
     if (it != data.end()) {
         return it->second; // Return the vector of variants directly
-    } else {
+    }
+    else {
         throw std::invalid_argument("Column not found: " + columnName);
     }
 }

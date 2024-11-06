@@ -1,28 +1,31 @@
 #include <iostream>
 #include "src/CSVReader.h"
-#include "src/models/linearRegression.h"
+#include "src/models/logisticRegression.h"
 
-int main(){
-    try{
+using Data = std::vector<std::vector<std::variant<std::string, double>>>; // Define Data type
 
-        CSVReader reader("data/salarydata.csv");
+int main() {
+    try {
+        CSVReader reader("data/diabetes.csv");
         reader.read();
-        reader.printData();
 
-        auto x_variant = reader.getValues("Experience");
-        auto y_variant = reader.getValues("Salary");
+        auto data = reader.getData();
+        Column y = reader.getValues("outcome");
 
-        LinearRegression model(x_variant, y_variant);
-        model.findCoefficients();
-        double b0, b1;
-        model.getCoefficients(b0, b1);
-        std::cout << "b0: " << b0 << ", b1: " << b1 << std::endl;
-        double prediction = model.predict(5);
+        // Create the feature matrix X by removing the "outcome" column from the data
+        Data X;
+        for (const auto& pair : data) {
+            if (pair.first != "outcome") {
+                X.push_back(pair.second);
+            }
+        }
+        std::cout << "Data loaded successfully" << std::endl;
 
-        std::cout << "Prediction for 5 years of experience: " << prediction << std::endl;
-
+        LogisticRegression model(X, y, 0.0001, 10, 0.8);
+        model.fit();
+        model.evaluate();
     }
-    catch (const std::exception &e){
+    catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return 1;
     }
