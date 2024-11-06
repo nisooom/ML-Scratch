@@ -8,38 +8,45 @@ LDFLAGS  =
 # Libraries (add your libraries here)
 LIBS = 
 
-# Target executable name
-TARGET = app.exe
+# Target executable directory
+OUT_DIR = out
 
 # Directories
 SRC_DIR = src
 BUILD_DIR = build
+EXAMPLE_DIR = examples
 
-# Source files in src and main.cpp
-SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp $(SRC_DIR)/*.cpp) main.cpp
+# Source files in src and example files in examples
+SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp $(SRC_DIR)/*.cpp)
+EXAMPLES = $(wildcard $(EXAMPLE_DIR)/*.cpp)
 
 # Object files in build, keeping directory structure for src files
-OBJECTS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 
-# Display sources and objects for debugging
+# Executable names
+TARGETS = $(patsubst $(EXAMPLE_DIR)/%.cpp, $(OUT_DIR)/%, $(EXAMPLES))
+
+# Display sources, objects, and targets for debugging
 $(info SOURCES: $(SOURCES))
 $(info OBJECTS: $(OBJECTS))
+$(info TARGETS: $(TARGETS))
 
-# Default target to build the executable
-all: $(TARGET)
+# Default target to build all executables
+all: $(TARGETS)
 
-# Rule to link the executable
-$(TARGET): $(OBJECTS)
-	$(CXX) -o $@ $^ $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $(LIBS)
+# Rule to link the executables
+$(OUT_DIR)/%: $(EXAMPLE_DIR)/%.cpp $(OBJECTS)
+	@mkdir -p $(dir $@)
+	$(CXX) -o $@ $< $(OBJECTS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $(LIBS)
 
 # Rule to compile source files into object files, maintaining subdirectory structure
-$(BUILD_DIR)/%.o: %.cpp
-	@mkdir -p $(dir $@)  # Automatically create necessary directories in build
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) -o $@ -c $< $(CXXFLAGS) $(DEFINES) $(INCLUDES)
 
-# Clean up object files and the target executable
+# Clean up object files and the target executables
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
+	rm -rf $(BUILD_DIR)/* $(OUT_DIR)/*
 
 # Rebuild the project from scratch
 redo: clean all
