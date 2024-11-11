@@ -1,6 +1,6 @@
 # Compiler settings
 CXX = g++
-CXXFLAGS = -O3 -Wall
+CXXFLAGS = -03 -Wall 
 DEFINES  = 
 INCLUDES = -I . -I external/
 LDFLAGS  = 
@@ -36,12 +36,12 @@ all: $(TARGETS)
 
 # Rule to link the executables
 $(OUT_DIR)/%: $(EXAMPLE_DIR)/%.cpp $(OBJECTS)
-	@mkdir -p $(dir $@)
+	mkdir -p $(dir $@)
 	$(CXX) -o $@ $< $(OBJECTS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $(LIBS)
 
 # Rule to compile source files into object files, maintaining subdirectory structure
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(dir $@)
+	mkdir -p $(dir $@)
 	$(CXX) -o $@ -c $< $(CXXFLAGS) $(DEFINES) $(INCLUDES)
 
 # Clean up object files and the target executables
