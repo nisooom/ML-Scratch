@@ -9,37 +9,38 @@
 #include <numeric>
 #include <variant>
 #include <string>
+#include <unordered_map>
+
+#define get_double(x) (std::get<double>(x))
 
 using Data = std::vector<std::vector<std::variant<std::string, double>>>;
 using Feature = std::vector<std::variant<std::string, double>>;
 using Value = std::variant<std::string, double>;
-using Distances = std::vector<std::tuple<double, Feature>>;
 
 enum Metric {
     EUCLIDEAN,
     MANHATTAN,
-    MINKOWSKI
 };
 
 class KNN {
 
 public:
-    KNN(Data& X, Feature& y, const int& k);
+    KNN(Data& X, Feature& y, const int& k, const Metric& metric);
 
-    void fit(Metric m, const int& p = -1);
+    int predict(const Feature& x);
 
-    void evaluate();
-    Feature predict(const Data& x);
 private:
     Data X;
     Feature y;
-    int k;
-    Distances distances;
-    double get(const Value& value);
+    Metric metric = Metric::EUCLIDEAN;
+    size_t k;
+
     double euclideanDistance(const Feature& a, const Feature& b);
     double manhattanDistance(const Feature& a, const Feature& b);
-    double minkowskiDistance(const Feature& a, const Feature& b, const int& p);
+    
 
 
 
 };
+
+#endif // KNN_H
