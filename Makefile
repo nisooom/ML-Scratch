@@ -1,6 +1,6 @@
 # Compiler settings
 CXX = g++
-CXXFLAGS = -03 -Wall 
+CXXFLAGS = -O3 -Wall 
 DEFINES  = 
 INCLUDES = -I . -I external/
 LDFLAGS  = 
