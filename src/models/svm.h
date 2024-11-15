@@ -2,7 +2,6 @@
     Implementation of SVM (Support Vector Machine) algorithm
     Using:
         - SVM Hyperplane
-        - SVM Kernel
         - Gradient Descent
         - Loss Function
 */
@@ -24,11 +23,12 @@
 using Data = std::vector<std::vector<std::variant<std::string, double>>>;
 using Feature = std::vector<std::variant<std::string, double>>;
 using Value = std::variant<std::string, double>;
+using Gradients = std::pair<std::vector<double>, double>;
 
 class SVM {
     public:
 
-        SVM(Data& X, Feature& y, const double& learningRate, const double& lambda, const int& epochs, const std::string& kernel);
+        SVM(Data& X, Feature& y, const double& learningRate, const double& lambda, const int& epochs);
 
         void fit();
 
@@ -36,12 +36,13 @@ class SVM {
 
     private:
 
+        Gradients calcGradients(const std::vector<double>& weights, double bias, Data& data, Feature& labels, double lambda);
+        double lossFunction(const std::vector<double>& weights, double bias, Data& data, Feature& labels, double lambda);
         Data X;
         Feature y;
         double learningRate;
         double lambda;
         int epochs;
-        std::string kernel;
 
 };
 
