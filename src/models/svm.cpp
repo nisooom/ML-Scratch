@@ -1,4 +1,5 @@
 #include "svm.h"
+#include "../optimizers/gd.h"
 
 SVM::SVM(Data& X, Feature& y, const double& learningRate, const double& lambda, const int& epochs) {
     this->X = X;
@@ -6,6 +7,13 @@ SVM::SVM(Data& X, Feature& y, const double& learningRate, const double& lambda, 
     this->learningRate = learningRate;
     this->lambda = lambda;
     this->epochs = epochs;
+
+    // Change Labels from 0.0 -> -1.0
+    for (auto& label : y) {
+        if (std::get<double>(label) == 0.0) {
+            label = -1.0;
+        }
+    }
 }
 
 Gradients SVM::calcGradients(const std::vector<double>& weights, double bias, Data& data, Feature& labels, double lambda) {
@@ -54,20 +62,29 @@ double SVM::lossFunction(const std::vector<double>& weights, double bias, Data& 
         // Convert label to double
         double yi = std::get<double>(labels[i]);
         
-        // Calculate decision value (w·x + b)
+        // Calculate decision value (w.x + b)
         double decision = bias;
         for (size_t j = 0; j < weights.size(); j++) {
             decision += weights[j] * std::get<double>(data[i][j]);
         }
         
-        // Compute hinge loss: max(0, 1 - yi * (w·x + b))
+        // Compute hinge loss: max(0, 1 - yi * (w.x + b))
         loss += std::max(0.0, 1.0 - yi * decision);
     }
     
     // Average the loss
     loss /= static_cast<double>(data.size());
     
-    // Add L2 regularization term
+    /*
+        Add L2 regularization term
+            Also called: Ridge regularization
+        
+        Regularization term is scaled by lambda
+            and the sum of squared weights
+            (i.e., lambda * ||w||^2)
+    
+    */
+
     double reg_term = 0.0;
     for (const auto& w : weights) {
         reg_term += w * w;
