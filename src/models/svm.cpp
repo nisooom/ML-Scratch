@@ -112,6 +112,12 @@ void SVM::fit() {
         return this->lossFunction(w, b, data, y, l);
         };
 
+    // converting feature to array
+    Array featureArr(y.size());
+    for (size_t i = 0; i < y.size(); i++) {
+        featureArr[i] = std::get<double>(y[i]);
+    }
+
     // Fit the model using gradient descent
     optimizer.fit(
         gradientFunc,
@@ -119,7 +125,7 @@ void SVM::fit() {
         weights,
         bias,
         X,
-        y
+        featureArr
     );
 
     // Store the optimized parameters
