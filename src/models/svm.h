@@ -43,6 +43,8 @@ class SVM {
         double learningRate;
         double lambda;
         int epochs;
+        std::vector<double> weights;
+        double bias;
 
 };
 
