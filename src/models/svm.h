@@ -36,8 +36,8 @@ class SVM {
 
     private:
 
-        Gradients calcGradients(const std::vector<double>& weights, double bias, Data& data, Feature& labels, double lambda);
-        double lossFunction(const std::vector<double>& weights, double bias, Data& data, Feature& labels, double lambda);
+        Gradients calcGradients(const std::vector<double>& weights, double bias, const Data& data, Feature& labels, double lambda);
+        double lossFunction(const std::vector<double>& weights, double bias, const Data& data, Feature& labels, double lambda);
         Data X;
         Feature y;
         double learningRate;
