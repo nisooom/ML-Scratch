@@ -85,11 +85,11 @@ double SVM::lossFunction(const std::vector<double>& weights, double bias, const 
 
     */
 
-    double reg_term = 0.0;
-    for (const auto& w : weights) {
-        reg_term += w * w;
-    }
-    loss += lambda * reg_term;
+    // double reg_term = 0.0;
+    // for (const auto& w : weights) {
+    //     reg_term += w * w;
+    // }
+    // loss += lambda * reg_term;
 
     return loss;
 }
@@ -131,4 +131,15 @@ void SVM::fit() {
     // Store the optimized parameters
     this->weights = weights;
     this->bias = bias;
+}
+
+int SVM::predict(const Feature& x) {
+    // Calculate decision value (w.x + b)
+    double decision = bias;
+    for (size_t i = 0; i < x.size(); i++) {
+        decision += weights[i] * std::get<double>(x[i]);
+    }
+
+    // Return predicted class based on decision value
+    return (decision >= 0) ? 1 : 0;
 }

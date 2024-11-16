@@ -27,6 +27,7 @@ void GradientDescent::fit(
 
         // Calculate and print the loss using the loss function
         double loss = lossFunction(weights, bias, data, labels, lambda);
-        std::cout << "Epoch " << epoch + 1 << "/" << epochs << " - Loss: " << loss << std::endl;
+        std::cout << "Epoch " << epoch + 1 << "/" << epochs << " - Loss: " << loss << "\r";
     }
+    std::cout << std::endl;
 }
