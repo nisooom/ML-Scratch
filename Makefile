@@ -1,7 +1,7 @@
 # Compiler settings
 CXX = g++
-CXXFLAGS = -O3 -Wall 
-DEFINES  = 
+CXXFLAGS = -O3 -Wall
+DEFINES  =
 INCLUDES = -I . -I external/
 LDFLAGS  = 
 
@@ -20,7 +20,7 @@ EXAMPLE_DIR = examples
 SOURCES = $(wildcard $(SRC_DIR)/**/*.cpp $(SRC_DIR)/*.cpp)
 EXAMPLES = $(wildcard $(EXAMPLE_DIR)/*.cpp)
 
-# Object files in build, keeping directory structure for src files
+# Object files in build, maintaining directory structure for src files
 OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 
 # Executable names
@@ -34,19 +34,19 @@ $(info TARGETS: $(TARGETS))
 # Default target to build all executables
 all: $(TARGETS)
 
-# Rule to link the executables
-$(OUT_DIR)/%: $(EXAMPLE_DIR)/%.cpp $(OBJECTS)
-	mkdir -p $(dir $@)
-	$(CXX) -o $@ $< $(OBJECTS) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $(LIBS)
-
 # Rule to compile source files into object files, maintaining subdirectory structure
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	mkdir -p $(dir $@)
-	$(CXX) -o $@ -c $< $(CXXFLAGS) $(DEFINES) $(INCLUDES)
+	$(CXX) $(CXXFLAGS) $(DEFINES) $(INCLUDES) -c $< -o $@
+
+# Rule to link the executables
+$(OUT_DIR)/%: $(EXAMPLE_DIR)/%.cpp $(OBJECTS)
+	mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $(LIBS) -o $@ $< $(OBJECTS)
 
 # Clean up object files and the target executables
 clean:
-	rm -rf $(BUILD_DIR)/* $(OUT_DIR)/*
+	rm -rf $(BUILD_DIR) $(OUT_DIR)
 
 # Rebuild the project from scratch
 redo: clean all
