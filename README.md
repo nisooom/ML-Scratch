@@ -76,6 +76,10 @@ Contributions are welcome! If you'd like to contribute, please:
 
 Before contributing, ensure that your code is well-documented and tested.
 
+
+### Contributors 
+- @SiddharthSahani
+
 ---
 
 Thank you for your interest in the **Machine Learning from Scratch in C++** project! Whether you're here to learn, contribute, or both, your engagement is valued.
