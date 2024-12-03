@@ -3,6 +3,8 @@
 
 /.vscode/*
 .editorconfig
+out/
+build/
 
 # Compiled Object files
 *.slo

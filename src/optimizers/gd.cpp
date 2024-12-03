@@ -1,4 +1,4 @@
-#include "GD.h"
+#include "gd.h"
 
 // Constructor for GradientDescent
 GradientDescent::GradientDescent(const double& learningRate, const double& lambda, const int& epochs)
