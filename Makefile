@@ -28,7 +28,7 @@ TARGETS = $(patsubst $(EXAMPLE_DIR)/%.cpp, $(OUT_DIR)/%, $(EXAMPLES))
 
 
 # Default target to build all executables
-all: $(TARGETS)
+
 
 # Rule to link the executables
 $(OUT_DIR)/%: $(EXAMPLE_DIR)/%.cpp $(OBJECTS)
@@ -47,4 +47,4 @@ clean:
 # Rebuild the project from scratch
 redo: clean all
 
-.PHONY: all clean redo
+.PHONY: all clean 
